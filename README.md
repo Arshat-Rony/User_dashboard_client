@@ -7,9 +7,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 * This is basically a user dashboard application where a logged in user can see all the user available in the database.Also he can update the user and delete a user permanently from the database.
 
-* Here I have used Nodejs for developing the backend code and express.js as a frameworks.
+* Here I have used ReactJS for developing my frontend and for the backend code I have used Nodejs and express.js as a frameworks.
 
-* I have stored all of my code in the heroku for making it live.
+* I have used netlify as a live hosting platform.
 
 
 ## UseCase

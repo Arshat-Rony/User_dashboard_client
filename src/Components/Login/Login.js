@@ -29,7 +29,7 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8000/vouche/users/registration', { name, password })
+        axios.post('https://user-dashboard-server.herokuapp.com/vouche/users/registration', { name, password })
             .then(res => {
                 if (res.data.error) {
                     console.log(res.data.error)
@@ -64,7 +64,7 @@ const Login = () => {
                     const decoded = jwt_decode(token);
 
                     if (decoded.name === name) {
-                        axios.post('http://localhost:8000/vouche/users/login', { name, password })
+                        axios.post('https://user-dashboard-server.herokuapp.com/vouche/users/login', { name, password })
                             .then(res => {
 
                                 console.log(res)

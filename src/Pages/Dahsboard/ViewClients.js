@@ -11,7 +11,7 @@ const ViewClients = () => {
 
 
     const handleDelete = (id) => {
-        axios.delete(`http://localhost:8000/vouche/users/delete/${id}`)
+        axios.delete(`https://user-dashboard-server.herokuapp.com/vouche/users/delete/${id}`)
             .then(res => {
                 if (res.data.user) {
                     let newData = data.filter(user => user._id !== id)

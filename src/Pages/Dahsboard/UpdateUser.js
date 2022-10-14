@@ -18,14 +18,14 @@ const UpdateUser = () => {
     const [user, setUser] = useState({})
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/vouche/users/singleuser/${id}`)
+        axios.get(`https://user-dashboard-server.herokuapp.com/vouche/users/singleuser/${id}`)
             .then(res => {
                 setUser(res.data.user)
             })
     }, [id])
 
     const onSubmit = (data) => {
-        axios.put(`http://localhost:8000/vouche/users/update/${id}`, { data })
+        axios.put(`https://user-dashboard-server.herokuapp.com/vouche/users/update/${id}`, { data })
             .then(res => {
                 if (res.data.user) {
                     navigate("/dashboard/viewclients")
