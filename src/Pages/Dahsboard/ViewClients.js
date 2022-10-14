@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useData from '../../utilitis/getdata';
+import Loading from '../../utilitis/Loading';
+
 
 const ViewClients = () => {
     const [clients, setClients] = useState([])
@@ -21,6 +23,11 @@ const ViewClients = () => {
             })
     }
 
+    const handleLogOut = () => {
+        localStorage.removeItem("token")
+        navigate('/')
+    }
+
     return (
         <div className='absolute top-10'>
             <div className="overflow-x-auto">
@@ -37,7 +44,7 @@ const ViewClients = () => {
                     </thead>
                     <tbody>
                         {
-                            data?.map((user, index) =>
+                            data ? data.map((user, index) =>
                                 <tr className='' key={user._id}>
                                     <th>{index + 1}</th>
                                     <td className='capitalize'>{user.name}</td>
@@ -47,6 +54,9 @@ const ViewClients = () => {
                                     <td><button onClick={() => handleDelete(user._id)} className="btn bg-red-700 border-none btn-sm">Delete</button></td>
                                 </tr>
                             )
+                                :
+                                <Loading type="spin" color="red" />
+
                         }
                     </tbody>
                 </table>

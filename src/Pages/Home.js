@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Login from '../Components/Login/Login';
 
 const Home = () => {
+
     return (
         <div>
             <Login></Login>

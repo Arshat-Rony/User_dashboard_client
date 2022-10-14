@@ -1,3 +1,4 @@
+
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import Login from "./Components/Login/Login";
@@ -5,6 +6,7 @@ import Dhasboard from "./Pages/Dahsboard/Dhasboard";
 import ViewClients from "./Pages/Dahsboard/ViewClients";
 import UpdateUser from "./Pages/Dahsboard/UpdateUser";
 import setAuthToken from "./utilitis/setAuthtoken";
+
 
 const token = JSON.parse(localStorage.getItem('token'))
 setAuthToken(token)

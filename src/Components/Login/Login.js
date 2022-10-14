@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import jwt_decode from "jwt-decode";
 import setAuthToken from '../../utilitis/setAuthtoken';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../utilitis/Loading';
 
 const Login = () => {
     const [name, setName] = useState('')
@@ -11,17 +12,13 @@ const Login = () => {
     const [nameError, setNameError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [user, setUser] = useState({})
-
-    useEffect(() => {
-        if (user) {
-            navigate('/dashboard')
-        }
-    }, [user, navigate])
+    const [show, setShow] = useState(false)
 
     const handleName = (e) => {
         const userName = e.target.value.toLowerCase();
         setName(userName)
     }
+
 
     const handlePassword = (e) => {
         setPassword(e.target.value)
@@ -29,10 +26,11 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
+        setShow(true)
         axios.post('https://user-dashboard-server.herokuapp.com/vouche/users/registration', { name, password })
             .then(res => {
                 if (res.data.error) {
-                    console.log(res.data.error)
+
                     if (res.data.error.password && res.data.error.name) {
                         setNameError(res.data.error.name)
                         setPasswordError(res.data.error.password)
@@ -51,11 +49,15 @@ const Login = () => {
                     const decoded = jwt_decode(res.data.token);
                     localStorage.setItem("token", JSON.stringify(res.data.token))
                     setAuthToken(res.data.token)
-                    setUser(decoded)
                     setPasswordError('')
                     setNameError('')
                     setPassword('')
                     setName('')
+                    if (decoded) {
+                        setUser(decoded)
+                        setShow(false)
+                        navigate('/dashboard')
+                    }
                     e.target.reset()
                 }
 
@@ -66,9 +68,6 @@ const Login = () => {
                     if (decoded.name === name) {
                         axios.post('https://user-dashboard-server.herokuapp.com/vouche/users/login', { name, password })
                             .then(res => {
-
-                                console.log(res)
-
                                 if (res.data.message === "Password Didn't Match" || !password) {
                                     setPasswordError(res.data.message)
                                 }
@@ -80,12 +79,14 @@ const Login = () => {
                                     setPasswordError("")
                                     setPassword('')
                                     setName("")
-                                    setUser(user)
+                                    if (res.data.user) {
+                                        setUser(res.data.user)
+                                        setShow(false)
+                                        navigate('/dashboard')
+                                    }
                                     e.target.reset()
                                 }
                             })
-
-
                     }
 
                 }
@@ -94,9 +95,9 @@ const Login = () => {
     }
 
     return (
-        <div className='md:flex items-center'>
+        <div className={`md:flex items-center ${show && "justify-center"}`}>
 
-            <form onSubmit={handleLogin} className='md:w-6/12 md:flex items-center justify-center flex-col ml-8 mt-36'>
+            {show ? <Loading color="red" type="spin"></Loading> : <> <form onSubmit={handleLogin} className='md:w-6/12 md:flex items-center justify-center flex-col ml-8 mt-36'>
 
                 <h2 className='font-bold text-2xl text-center'>Welcome</h2>
                 <p className='text-gray-400 text-center'>Enter your Username and Password</p>
@@ -116,9 +117,9 @@ const Login = () => {
                 </div>
             </form>
 
-            <div className='w-6/12 hidden  bg-primary min-h-screen md:flex items-center justify-center flex-col relative'>
-                <h2 className='text-4xl font-bold font-serif text-white'>Welcome to Address Book Application</h2>
-            </div>
+                <div className='w-6/12 hidden  bg-primary min-h-screen md:flex items-center justify-center flex-col relative'>
+                    <h2 className='text-4xl font-bold font-serif text-white'>Welcome to Address Book Application</h2>
+                </div> </>}
         </div>
     );
 };

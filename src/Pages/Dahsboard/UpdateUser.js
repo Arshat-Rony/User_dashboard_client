@@ -39,7 +39,7 @@ const UpdateUser = () => {
     return (
         <div className='mt-4'>
             <h2 className='text-center text-4xl font-bold'>Update Profile <br />
-                of {user.name}</h2>
+                of <span className='capitalize text-red-500'>{user.name}</span></h2>
             <form className='p-4 lg:p-0 ' onSubmit={handleSubmit(onSubmit)}>
                 {
                     data.map(item =>
